@@ -1,55 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exo1 - Géolocalisation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceuil</title>
 </head>
 <body>
-<h1>Géolocalisation</h1>
-
-<section>
-<h2>getCurrentPosition()</h2>
-<pre id="current">En attente...</pre>
-</section>
-
-<section>
-<h2>watchPosition()</h2>
-<pre id="watch">En attente...</pre>
-</section>
-
-<script>
-function format(pos) {
-  const c = pos.coords;
-  return [
-    "Longitude : " + c.longitude,
-    "Latitude : " + c.latitude,
-    "Altitude : " + (c.altitude ?? "indisponible"),
-    "Précision : " + c.accuracy + " m",
-    "Vitesse : " + (c.speed ?? "indisponible"),
-    "Date : " + new Date(pos.timestamp).toLocaleString("fr-FR")
-  ].join("\n");
-}
-
-function onError(el) {
-  return function (err) {
-    document.getElementById(el).textContent = "Erreur " + err.code + " : " + err.message;
-  };
-}
-
-const options = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
-
-navigator.geolocation.getCurrentPosition(
-  function (pos) { document.getElementById("current").textContent = format(pos); },
-  onError("current"),
-  options
-);
-
-navigator.geolocation.watchPosition(
-  function (pos) { document.getElementById("watch").textContent = format(pos); },
-  onError("watch"),
-  options
-);
-</script>
+    <a href="./TD1/index.html">TD1</a>
 </body>
 </html>
