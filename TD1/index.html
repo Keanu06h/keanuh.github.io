@@ -1,11 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Exo1 - Géolocalisation</title>
+<title>Géolocalisation</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+<style>
+#map {
+  height: 500px;
+  width: 100%;
+}
+</style>
 </head>
 <body>
+
 <h1>Géolocalisation</h1>
 
 <section>
@@ -17,6 +28,13 @@
 <h2>watchPosition()</h2>
 <pre id="watch">En attente...</pre>
 </section>
+
+<section>
+<h2>Exercice 2 - Leaflet</h2>
+<div id="map"></div>
+</section>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
 function format(pos) {
@@ -40,16 +58,55 @@ function onError(el) {
 const options = { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 };
 
 navigator.geolocation.getCurrentPosition(
-  function (pos) { document.getElementById("current").textContent = format(pos); },
+  function (pos) { 
+    document.getElementById("current").textContent = format(pos); 
+  },
   onError("current"),
   options
 );
 
 navigator.geolocation.watchPosition(
-  function (pos) { document.getElementById("watch").textContent = format(pos); },
+  function (pos) { 
+    document.getElementById("watch").textContent = format(pos); 
+  },
   onError("watch"),
   options
 );
+
+// Exercice 2
+
+navigator.geolocation.getCurrentPosition(function(pos) {
+
+  const lat = pos.coords.latitude;
+  const lon = pos.coords.longitude;
+
+  const map = L.map('map').setView([lat, lon], 13);
+
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // Ma position
+  L.marker([lat, lon]).addTo(map)
+    .bindPopup("Ma position");
+
+  // Nice
+  L.marker([43.7009, 7.2684]).addTo(map)
+    .bindPopup("Nice");
+
+  // Triangle des Bermudes
+  const triangle = [
+    [25.7617, -80.1918],
+    [32.3078, -64.7505],
+    [18.4655, -66.1057]
+  ];
+
+  L.polygon(triangle, {
+    color: 'red'
+  }).addTo(map);
+
+}, onError("current"), options);
+
 </script>
 </body>
 </html>
